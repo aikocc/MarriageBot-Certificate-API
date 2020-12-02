@@ -14,4 +14,15 @@ Query params
 | userb | A string for the name of the second user | Yes |
 | timestamp | A unix timestamp when the two users were married | No |
 
-This parameter returns an image containing the edited marriage certificate
+This parameter returns an image of the Official Marriage Certificate between both users specified.
+
+### GET /certs/adoption
+
+Query params
+
+| Parameter | Description | Required |
+|-----------|-------------|----------|
+| parenta | A string for the name of the parent | Yes |
+| child | A string for the name of the child | Yes |
+
+This parameter returns an image of the Official Adoption Certificate between parent and child.
