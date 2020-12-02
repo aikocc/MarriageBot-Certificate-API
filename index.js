@@ -1,6 +1,9 @@
 const express = require('express');
-const app = express();
 var Jimp = require("jimp");
+
+
+const app = express();
+
 
 app.get('/certs/marriage', async function (req, res) {
     var fileName = 'yes.png';
@@ -22,7 +25,7 @@ app.get('/certs/marriage', async function (req, res) {
             timea = time[0] + " " + time[1];
         }
     }
-    
+
     var imageCaptionc = date;
     var loadedImage;
 
@@ -39,19 +42,20 @@ app.get('/certs/marriage', async function (req, res) {
         test = test.print(font, 266, 218, year);
         test = test.print(font, 240, 236, timea);
     }
-        test = test.print(font, 364, 320, "MarriageBot");
-            //374, 296
-        res.set('Content-Disposition', 'inline; filename="something.png"')
-        res.type('jpg');
-        test.getBufferAsync(Jimp.MIME_PNG).then(data => res.send(data))
-        .catch(function (err) {
-            console.error(err);
-        });
+    test = test.print(font, 364, 320, "MarriageBot");
+    // 374, 296
+    res.set('Content-Disposition', 'inline; filename="something.png"')
+    res.type('jpg');
+    test.getBufferAsync(Jimp.MIME_PNG).then(data => res.send(data)).catch(function (err) {
+        console.error(err);
+    });
 });
+
+
 app.get('/certs/adoption', function (req, res) {
     var fileName = 'yes.png';
     var imageCaption = 'Official Adoption Certificate';
-    var imageCaptiona = "Parent: " + req.query.parenta; //var imageCaptionb = "Parent 2: " + req.query.parentb;
+    var imageCaptiona = "Parent: " + req.query.parenta;
     var imageCaptionc = "Child: " + req.query.child;
     var loadedImage;
 
@@ -72,8 +76,7 @@ app.get('/certs/adoption', function (req, res) {
         .catch(function (err) {
             console.error(err);
         });
-        //res.status(204).send();
 });
-app.listen(3000)
 
-    
+
+app.listen(3000)
