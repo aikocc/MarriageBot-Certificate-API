@@ -1,22 +1,15 @@
 const express = require('express');
 const app = express();
+const Jimp = require("jimp");
 
-var bodyParser = require('body-parser');
-var jsonBodyParser = bodyParser.json()
-app.use(bodyParser.urlencoded({extended: false}));
-
-const fs = require('fs')
-var Jimp = require("jimp");
-app.get('/certs/marriage', jsonBodyParser, function (req, res) {
+app.get('/certs/marriage', async function (req, res) {
     var fileName = 'yes.png';
     var imageCaption = 'Official Marriage Certificate';
     var imageCaptiona = req.query.usera; var imageCaptionb = req.query.userb;
     if (!req.query.timestamp) {
         date = "Before MarriageBot was popular";
     } else {
-        console.log(req.query.timestamp)
         date = new Date(parseInt(req.query.timestamp*1000));
-        console.log(date)
         date = date.toString().split(" ");
         day = date[0];
         month = date[1];
@@ -30,33 +23,29 @@ app.get('/certs/marriage', jsonBodyParser, function (req, res) {
     var imageCaptionc = date;
     var loadedImage;
 
-    Jimp.read(fileName)
-        .then(function (image) {
-            loadedImage = image;
-            return Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
-        })
-        .then(function (font) {
-            test = loadedImage.print(font, 290, 124, imageCaptiona);
-            test = test.print(font, 204, 145, imageCaptionb);
-            if(!req.query.timestamp) {
-                test = test.print(font, 240, 236, date);
-            } else {
-                test = test.print(font, 266, 200, numdate);
-                test = test.print(font, 348, 200, month);
-                test = test.print(font, 266, 218, year);
-                test = test.print(font, 240, 236, timea);
-            }
-            test = test.print(font, 364, 320, "MarriageBot");
+    image = await Jimp.read(fileName);
+    loadedImage = image;
+    font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+    test = loadedImage.print(font, 290, 124, imageCaptiona);
+    test = test.print(font, 204, 145, imageCaptionb);
+    if(!req.query.timestamp) {
+        test = test.print(font, 240, 236, date);
+    } else {
+        test = test.print(font, 266, 200, numdate);
+        test = test.print(font, 348, 200, month);
+        test = test.print(font, 266, 218, year);
+        test = test.print(font, 240, 236, timea);
+    }
+        test = test.print(font, 364, 320, "MarriageBot");
             //374, 296
-            res.set('Content-Disposition', 'inline; filename="something.png"')
-            res.type('jpg');
-            test.getBufferAsync(Jimp.MIME_PNG).then(data => res.send(data));
-        })
+        res.set('Content-Disposition', 'inline; filename="something.png"')
+        res.type('jpg');
+        test.getBufferAsync(Jimp.MIME_PNG).then(data => res.send(data))
         .catch(function (err) {
             console.error(err);
         });
 });
-app.get('/certs/adoption', jsonBodyParser, function (req, res) {
+app.get('/certs/adoption', function (req, res) {
     var fileName = 'yes.png';
     var imageCaption = 'Official Adoption Certificate';
     var imageCaptiona = "Parent: " + req.query.parenta; //var imageCaptionb = "Parent 2: " + req.query.parentb;
