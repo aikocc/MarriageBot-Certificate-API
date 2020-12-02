@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-var Jimp = require("jimp");
+const Jimp = require("jimp");
 
 app.get('/certs/marriage', async function (req, res) {
     var fileName = 'yes.png';
