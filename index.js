@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const Jimp = require("jimp");
+var Jimp = require("jimp");
 
 app.get('/certs/marriage', async function (req, res) {
     var fileName = 'yes.png';
@@ -9,15 +9,18 @@ app.get('/certs/marriage', async function (req, res) {
     if (!req.query.timestamp) {
         date = "Before MarriageBot was popular";
     } else {
-        date = new Date(parseInt(req.query.timestamp*1000));
-        date = date.toString().split(" ");
-        day = date[0];
-        month = date[1];
-        numdate = date[2];
-        year = date[3];
-        time = date.slice(4);
-        time[1] = "UTC";
-        timea = time[0] + " " + time[1];
+        check = parseInt(req.query.timestamp*1000);
+        if(Number.isInteger(check)) {
+            date = new Date(parseInt(req.query.timestamp*1000));
+            date = date.toString().split(" ");
+            day = date[0];
+            month = date[1];
+            numdate = date[2];
+            year = date[3];
+            time = date.slice(4);
+            time[1] = "UTC";
+            timea = time[0] + " " + time[1];
+        }
     }
     
     var imageCaptionc = date;
